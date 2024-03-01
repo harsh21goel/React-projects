@@ -1,9 +1,9 @@
 import React from "react";
 
-function footer() {
+function Footer() {
   return (
     <>
-      <footer
+      <footer 
         className="bg-slate-950 w-full h-3/4     flex justify-center"
         style={{ height: "500px" }}
       >
@@ -112,4 +112,4 @@ function footer() {
   );
 }
 
-export default footer;
+export default Footer;

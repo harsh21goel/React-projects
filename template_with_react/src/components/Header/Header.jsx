@@ -10,9 +10,8 @@ function Header() {
             <h1 className='text-2xl font-bold'>Edusmart</h1>
             </div>
             <nav className='w-3/4  flex justify-end p-8 text-sm'>
-          <a className="pr-14"href="" >HOME</a>
-          <a href="" className='pr-14'>ABOUT</a>
-          <a href="" className='pr-14'>PAGE</a>
+          <Link className='pr-14' to="/">Home</Link>
+          <Link className='pr-14' to="about">About</Link>
           <a href="" className='pr-14'>BLOG</a>
           <a href="" className='pr-14'>CONTACT</a>
           <a href="" className='pr-14'>H</a>
