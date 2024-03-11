@@ -1,4 +1,4 @@
-import config from "../config/config"
+import conf from "../config/config"
 import { Client,Databases,Storage,Query,ID } from "appwrite"
 
 
@@ -9,16 +9,16 @@ bucket;
 
     constructor(){
         this.client
-        .setEndpoint(config.appwriteUrl)
-        .setProject(config.appwriteProjectId)
+        .setEndpoint(conf.appwriteUrl)
+        .setProject(conf.appwriteProjectId)
         this.database=new Databases(this.client)
         this.bucket=new Storage(this.client)
     }
     async createPost({title,content,featured_image,status,user_id,slug}){
         try {
            return await this.database.createDocument(
-                config.appwriteDatabaseId,
-                config.appwriteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -37,8 +37,8 @@ bucket;
     async updatePost(slug,{title,content,featured_image,status,user_id}){
         try {
             return await this.database.updateDocument(
-                config.appwriteDatabaseId,
-                config.appwriteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -56,8 +56,8 @@ bucket;
     async Deletepost({slug}){
         try {
             await this.database.deleteDocument(
-                config.appwriteDatabaseId,
-                config.appwriteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
             )
             return true
@@ -69,8 +69,8 @@ bucket;
     async getPost({slug}){
         try {
             return await this.database.getDocument(
-                config.appwriteDatabaseId,
-                config.appwriteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
             )
         } catch (error) {
@@ -81,8 +81,8 @@ bucket;
     async getAllPosts(queries=[Query.equal("status", "active")]){
         try {
            return await this.database.listDocuments(
-            config.appwriteDatabaseId,
-            config.appwriteCollectionId,
+            conf.appwriteDatabaseId,
+            conf.appwriteCollectionId,
             queries
            )
         } catch (error) {
@@ -96,7 +96,7 @@ bucket;
     async uploadFile(file){
         try {
             return await this.bucket.createFile(
-                config.appwriteBucketId,
+                conf.appwriteBucketId,
                 ID,unique(),
                 file
             )
@@ -109,7 +109,7 @@ bucket;
     async deleteFile(fileId){
         try {
             return await this.bucket.deleteFile(
-                config.appwriteBucketId,
+                conf.appwriteBucketId,
                 fileId
             )
         } catch (error) {
@@ -120,7 +120,7 @@ bucket;
 
     async getFilepreview(fileId){
         await this.bucket.getFilePreview(
-            config.appwriteBucketId,
+            conf.appwriteBucketId,
             fileId
         )
     
