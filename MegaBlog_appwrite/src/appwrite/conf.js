@@ -3,7 +3,7 @@ import { Client,Databases,Storage,Query,ID } from "appwrite"
 
 
 export class Service{
-client=new Client()
+client=new Client() 
 database;
 bucket; 
 
@@ -34,7 +34,7 @@ bucket;
         }
     }
 
-    async updatePost(slug,{title,content,featured_image,status,user_id}){
+    async updatePost(slug,{title,content,featured_image,status}){
         try {
             return await this.database.updateDocument(
                 conf.appwriteDatabaseId,
@@ -53,7 +53,7 @@ bucket;
             
         }
     }
-    async Deletepost({slug}){
+    async deletepost({slug}){
         try {
             await this.database.deleteDocument(
                 conf.appwriteDatabaseId,
@@ -79,7 +79,7 @@ bucket;
         }
     }
     async getAllPosts(queries=[Query.equal("status", "active")]){
-        try {
+        try {   
            return await this.database.listDocuments(
             conf.appwriteDatabaseId,
             conf.appwriteCollectionId,
@@ -97,7 +97,7 @@ bucket;
         try {
             return await this.bucket.createFile(
                 conf.appwriteBucketId,
-                ID,unique(),
+                ID.unique(),
                 file
             )
         } catch (error) {
@@ -108,18 +108,20 @@ bucket;
 
     async deleteFile(fileId){
         try {
-            return await this.bucket.deleteFile(
+             await this.bucket.deleteFile(
                 conf.appwriteBucketId,
                 fileId
             )
-        } catch (error) {
+            return true
+        } 
+        catch (error) {
             console.log("Appwrite Service :: deleteFile :: error: " + error);
             return false;
         }
     }
 
-    async getFilepreview(fileId){
-        await this.bucket.getFilePreview(
+     getFilepreview(fileId){
+        return this.bucket.getFilePreview(
             conf.appwriteBucketId,
             fileId
         )

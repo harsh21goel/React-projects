@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import authservice from '../appwrite/auth'
-import { Link,Navigate,useNavigate } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { login } from '../store/authSlice'
 import {Button,Input,Logo} from "./index"
 import { useDispatch } from 'react-redux'
@@ -17,6 +17,7 @@ function Signup() {
         try {
             const userData=await authservice.CreateAccount(data)
             if(userData){
+              // console.log(userData);
                 const userData = await authservice.getCurrentUser()
                 if (userData) {
                     dispatch(login(userData))
@@ -37,7 +38,7 @@ function Signup() {
             </span>
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign in to your account
+          Sign up your account
         </h2>
         <p className="mt-2 text-center text-base text-black/60">
           Already hav an account?&nbsp;
@@ -45,7 +46,7 @@ function Signup() {
             to="/login"
             className="font-medium text-primary transition-all duration-200 hover:underline"
           >
-            Sign up
+            Sign in
           </Link>
         </p>
         {error && <p className='text-red-600 mt-8 text-center'>

@@ -24,7 +24,7 @@ useEffect(()=>{
 },[slug,navigate])
 
 const deletePost=()=>{
-    appwriteService.deletePost(post.featured_image).then((status)=>{
+    appwriteService.deletePost(post.$id).then((status)=>{
         if (status) {
             appwriteService.deleteFile(post.featured_image)
             navigate("/")

@@ -1,6 +1,6 @@
 import React,{useCallback} from 'react'
 import {useForm} from "react-hook-form"
-import {Button,Input,RTE} from "../index"
+import {Button,Input,RTE,Select} from "../index"
 import { useNavigate } from 'react-router-dom'
 import {  useSelector } from 'react-redux'
 import appwriteService from "../../appwrite/conf"
@@ -11,63 +11,71 @@ function PostForm({post}) {
         title: post?.title ||"",
         slug: post?.slug ||"",
         content: post?.content ||"",
-        status: post?.status ||"active",
+        status: post?.status ||"active"
     }
     })
     const navigate=useNavigate()
-    const userData=useSelector(state=>state.user.userData)
-
+    const userData=useSelector(state=>state.auth.userData)
+    console.log(userData+"   aaaaaaaaaaaaaaaaaaaaaaaaa");
     const submit=async(data)=>{
         if (post) {
-         const file=   data.image[0] ? appwriteService.uploadFile(data.image[0]): null
+         const file=   data.image[0] ? await appwriteService.uploadFile(data.image[0]): null
+         
+         console.log("post"+post)
+         console.log("file"+file)
          if (file) {
             appwriteService.deleteFile(post.featured_image)
          }
-         const dbPost=await appwriteService.updatePost(post.$id,{
+         const dbPost =await appwriteService.updatePost(post.$id,{
             ...data,
             featured_image: file? file.$id : undefined,
             
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
-            }
          })
+         console.log("dbpost"+dbPost);
+         if (dbPost) {
+            navigate(`/post/${dbPost.$id}`)
+        }
         }else{
-            const file=   appwriteService.uploadFile(data.image[0])
+            const file=  await appwriteService.uploadFile(data.image[0])
+            console.log("else file"+file);
             if(file){
               const fileid=  file.$id
+            console.log("else fileid"+fileid);
+
               data.featured_image=fileid
-              await appwriteService.createPost({
-                ...data,
-                  user_id:userData.$id,
+              const dbPost =  await appwriteService.createPost({ ...data, user_id:userData.$id,
               })
+              console.log("else dbpost"+dbPost);
               if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
+              }else{
+                navigate("/")
               }
             }
 
         }
     }
     const slugTransform=useCallback((value) =>{
-        if (value && value==="string") 
+        if (value && typeof value==="string") {
             return value
             .trim() 
-            .toLowercase()
-            .replace(/^[a-zA-Z\d\s]+/g,'-')
-            .replace(/\s/g,'-')
-
+            .toLowerCase()
+            .replace(/\s+/g, "-") // Replace multiple spaces with a single dash
+            .replace(/[^a-z0-9-]/g, "");
+        }
         return ""
     },[])
 
     React.useEffect(()=>{
         const subscription =watch((value,{name})=>{
             if (name==="title") {
-                setValue("slug",slugTransform(value.title,{shouldValidate:true}))
+                setValue("slug",slugTransform(value.title),{shouldValidate:true})
             }
         })
 
-        return ()=>{
-            subscription.unsubscribe()
-        }
+        return ()=>subscription.unsubscribe()
+            
+        
     
     },[watch,slugTransform,setValue])
   return (
@@ -80,17 +88,15 @@ function PostForm({post}) {
             {...register("title",{required: true})}
             />
             <Input 
-            label="Slub :"
-            placeholder='luug'
+            label="Slug :"
+            placeholder='slug'
             className='mb-4'
             {...register("slug",{required: true})}
-            onInput={(e)=>{
-                setValue("slug",slugTransform(e.currentvalue.value),{
-                    shouldValidate:true
-                })
+             onInput={(e)=>{
+            setValue("slug",slugTransform(e.target.value),{shouldValidate:true})
             }}
             />
-            <RTE label="Conttent" name="content" control={control}
+            <RTE label="Content" name="content" control={control}
             defaultValue={getValues("content")} />
         </div>
         <div className=' w-1/3 px-2 '>
@@ -116,8 +122,8 @@ function PostForm({post}) {
                     className="mb-4"
                     {...register("status",{required:true})}
                 />
-            <Button type='submit' bgColor={post? bg-green-500:undefined}
-            className='w-full'>{post? Update:Submit}</Button>
+            <Button type='submit' bgColor={post? 'bg-green-500':undefined}
+            className='w-full'>{post? "Update":"Submit"}</Button>
         </div>
        
     </form>
