@@ -6,7 +6,7 @@ import Auth from './components/Auth'
 import MoviesList from './components/MoviesList'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
     <>

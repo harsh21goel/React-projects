@@ -10,13 +10,15 @@ function PostForm({post}) {
     defaultValues:{
         title: post?.title ||"",
         slug: post?.slug ||"",
-        content: post?.content ||"",
+        content: post?.content ||"blah blah..",
         status: post?.status ||"active"
     }
     })
     const navigate=useNavigate()
     const userData=useSelector(state=>state.auth.userData)
     console.log(userData+"   aaaaaaaaaaaaaaaaaaaaaaaaa");
+
+
     const submit=async(data)=>{
         if (post) {
          const file=   data.image[0] ? await appwriteService.uploadFile(data.image[0]): null
@@ -93,7 +95,7 @@ function PostForm({post}) {
             className='mb-4'
             {...register("slug",{required: true})}
              onInput={(e)=>{
-            setValue("slug",slugTransform(e.target.value),{shouldValidate:true})
+            setValue("slug",slugTransform(e.currentTarget.value),{shouldValidate:true})
             }}
             />
             <RTE label="Content" name="content" control={control}

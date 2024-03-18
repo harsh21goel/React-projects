@@ -8,7 +8,11 @@ function AllPost() {
         .then((posts)=>{
             if (posts) {
                 setPosts(posts.documents)
+            }else{
+                console.log("not getting posts");
             }
+        }).catch((err)=>{
+            console.log(err);
         })
     },[])
   return (

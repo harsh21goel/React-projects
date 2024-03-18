@@ -61,8 +61,8 @@ getMovies()
         await updateDoc(moviedoc,{title:updatedtitle})
         getMovies()
     }
-  return (
-    auth.currentUser !== null ? (
+    const loggedin= auth.currentUser !== null
+  return loggedin ? (
     <div>
 
     <div>
@@ -92,9 +92,10 @@ getMovies()
         </p>
         </div>
     ))}
+    {/* {getMovies()} */}
     </div>
     ):<p>Login to see movies</p>
-  )
+  
 }
 
 export default MoviesList

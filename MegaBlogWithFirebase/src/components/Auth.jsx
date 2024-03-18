@@ -1,6 +1,6 @@
 import React ,{useState}from 'react'
 import {createUserWithEmailAndPassword,signInWithPopup,signOut,signInWithEmailAndPassword} from "firebase/auth"
-import { auth } from '../firebase/config'
+import { auth,googleprovider } from '../firebase/config'
 export default function Auth() {
 const  [email, setemail] = useState("")
 const [pass, setpass] = useState("")
@@ -15,14 +15,14 @@ const signup=async ()=>{
     console.log(error);
    }
 }
-// const google=async ()=>{
-//     try {
-//     await signInWithPopup(auth,googleprovider)
+const google=async ()=>{
+    try {
+    await signInWithPopup(auth,googleprovider)
         
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+    } catch (error) {
+        console.log(error);
+    }
+}
 const logout=async ()=>{
     try {
     await signOut(auth)
@@ -51,7 +51,7 @@ const login=async ()=>{
       <input type="password" onChange={(e)=>setpass(e.target.value)} placeholder='Enter your password'value={pass} />
       <button onClick={signup}>Sign up</button>
       <button onClick={login}>log in</button>
-      {/* <button onClick={google}>Log in with google</button> */}
+      <button onClick={google}>Log in with google</button>
       <button onClick={logout}>LogOut</button>
       </>
       )
