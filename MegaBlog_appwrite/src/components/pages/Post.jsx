@@ -13,7 +13,7 @@ const navigate = useNavigate()
 const userData=useSelector((state)=>state.auth.userData)
 console.log("userdata   "+userData);
 const isAuthor=post && userData? post.userId === userData.$id: false
-// console.log("ssssss"+slug);
+console.log("ssssss"+isAuthor);
 useEffect(()=>{
     if (slug) {
         appwriteService.getPost(slug).then((post)=>{
