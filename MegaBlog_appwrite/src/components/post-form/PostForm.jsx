@@ -15,16 +15,16 @@ function PostForm({post}) {
     }
     })
     const navigate=useNavigate()
-    const userData=useSelector(state=>state.auth.userData)
-    console.log(userData+"   aaaaaaaaaaaaaaaaaaaaaaaaa");
+    const userData=useSelector((state)=>state.auth.userData)
+    // console.log(userData+"   aaaaaaaaaaaaaaaaaaaaaaaaa");
 
 
     const submit=async(data)=>{
         if (post) {
          const file=   data.image[0] ? await appwriteService.uploadFile(data.image[0]): null
          
-         console.log("post"+post)
-         console.log("file"+file)
+        //  console.log("post"+post)
+        //  console.log("file"+file)
          if (file) {
             appwriteService.deleteFile(post.featured_image)
          }
@@ -33,25 +33,26 @@ function PostForm({post}) {
             featured_image: file? file.$id : undefined,
             
          })
-         console.log("dbpost"+dbPost);
+        //  console.log("dbpost"+dbPost);
          if (dbPost) {
             navigate(`/post/${dbPost.$id}`)
         }
         }else{
             const file=  await appwriteService.uploadFile(data.image[0])
-            console.log("else file"+file);
+            // console.log("else file"+file);
             if(file){
               const fileid=  file.$id
-            console.log("else fileid"+fileid);
+            // console.log("else fileid"+fileid);
 
               data.featured_image=fileid
-              const dbPost =  await appwriteService.createPost({ ...data, user_id:userData.$id,
+              const dbPost =  await appwriteService.createPost({ ...data, 
               })
-              console.log("else dbpost"+dbPost);
+            //   console.log("else dbpost"+dbPost);
               if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
+                // console.log( "bbbbbbbbbbbbbbbbbb"+dbPost.$id);
               }else{
-                navigate("/")
+                navigate("/all-posts")
               }
             }
 

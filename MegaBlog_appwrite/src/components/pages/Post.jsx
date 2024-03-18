@@ -10,9 +10,10 @@ const [post, setpost] = useState(null)
 const {slug}=useParams()
 const navigate = useNavigate()
 
-const userData=useSelector(()=>state.auth.userData)
+const userData=useSelector((state)=>state.auth.userData)
+console.log("userdata   "+userData);
 const isAuthor=post && userData? post.userId === userData.$id: false
-
+// console.log("ssssss"+slug);
 useEffect(()=>{
     if (slug) {
         appwriteService.getPost(slug).then((post)=>{
@@ -37,7 +38,7 @@ const deletePost=()=>{
     <div className='py-8'>
         <Container>
             <div className='w-full flex justify-center mb-4 relative border rounded-xl p-2'>
-                <img src={appwriteService.getFilepreview(post.featured_image)} alt={post.title} className='rounded-xl'/>
+                <img src={appwriteService.getFilepreview(post.featured_image)} alt={post.title} className='rounded-xl h-16 w-full'/>
                 {isAuthor && (
                     <div className='absolute right-6 top-6'>
                         <Link to={`/edit-post/${post.$id}`}>

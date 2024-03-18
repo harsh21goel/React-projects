@@ -14,7 +14,7 @@ bucket;
         this.database=new Databases(this.client)
         this.bucket=new Storage(this.client)
     }
-    async createPost({title,content,featured_image,status,user_id,slug}){
+    async createPost({title,content,featured_image,status,slug}){
         try {
            return await this.database.createDocument(
                 conf.appwriteDatabaseId,
@@ -25,7 +25,7 @@ bucket;
                     content,
                     featured_image,
                     status,
-                    user_id,
+                    // user_id,
                     
                 }
             )
@@ -66,8 +66,9 @@ bucket;
             return false
         }
     }
-    async getPost({slug}){
+    async getPost(slug){
         try {
+        //   console.log("getposr"+slug);
             return await this.database.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
