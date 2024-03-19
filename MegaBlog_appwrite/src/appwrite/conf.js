@@ -53,7 +53,7 @@ bucket;
             
         }
     }
-    async deletepost({slug}){
+    async deletepost(slug){
         try {
             await this.database.deleteDocument(
                 conf.appwriteDatabaseId,
@@ -87,7 +87,7 @@ bucket;
             queries
            )
         } catch (error) {
-            console.log("Appwrite Service :: getAllPosts :: error: " + error);4
+            console.log("Appwrite Service :: getAllPosts :: error: " + error);
             return false;
         }
     }

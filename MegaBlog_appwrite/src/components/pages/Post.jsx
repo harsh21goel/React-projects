@@ -24,13 +24,19 @@ useEffect(()=>{
     }else navigate("/")
 },[slug,navigate])
 
-const deletePost=()=>{
-    appwriteService.deletePost(post.$id).then((status)=>{
-        if (status) {
-            appwriteService.deleteFile(post.featured_image)
-            navigate("/")
-        }
-    })
+const deletePost=async ()=>{
+    
+        await appwriteService.deletepost(post.$id)
+        .then((status)=>{
+            if (status) {
+                appwriteService.deleteFile(post.featured_image)
+                navigate("/")
+            }
+        }).catch ((error)=>{
+            console.log(error)
+        })
+     
+  
 }
 
 
